@@ -3,19 +3,27 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+// import { decrypt } from '@/helpers/encryption';
 
 export default function Home() {
   const [selectedCipher, setSelectedCipher] = useState('caesar');
   const [key, setKey] = useState('');
   const [plaintext, setPlaintext] = useState('');
-  const [cyphertext, setCyphertext] = useState('');
-  const [result, setResult] = useState('');
+  const [ciphertext, setCiphertext] = useState('');
 
   const handleDecrypt = () => {
-    // TODO: Implement actual decryption logic
     console.log(`Decrypting with ${selectedCipher} cipher`);
     console.log(`Key: ${key}`);
-    console.log(`Ciphertext: ${cyphertext}`);
+    console.log(`Ciphertext: ${ciphertext}`);
+
+    try {
+      const decrypted = decrypt(selectedCipher, key, ciphertext);
+      setPlaintext(decrypted);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Decryption error:', error);
+      setPlaintext(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -53,10 +61,10 @@ export default function Home() {
             </div>
 
             <div>
-              <label className="block mb-2">Cyphertext</label>
+              <label className="block mb-2">Ciphertext</label>
               <textarea
-                value={cyphertext}
-                onChange={(e) => setCyphertext(e.target.value)}
+                value={ciphertext}
+                onChange={(e) => setCiphertext(e.target.value)}
                 className="w-full p-2 border rounded"
                 rows={4}
                 placeholder="Enter text to decrypt"
@@ -64,6 +72,7 @@ export default function Home() {
             </div>
 
             <button
+              style={{ cursor: 'pointer' }}
               onClick={handleDecrypt}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             >
@@ -75,18 +84,11 @@ export default function Home() {
               <textarea
                 value={plaintext}
                 readOnly
-                className="w-full p-2 border rounded bg-gray-50 cursor-not-allowed"
+                className="w-full p-2 border rounded cursor-not-allowed"
                 rows={4}
                 placeholder="Decrypted text will appear here"
               />
             </div>
-
-            {result && (
-              <div className="mt-4">
-                <label className="block mb-2">Result:</label>
-                <div className="p-2 bg-gray-100 rounded">{result}</div>
-              </div>
-            )}
           </div>
         </div>
       </main>

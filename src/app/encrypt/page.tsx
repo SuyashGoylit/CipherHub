@@ -3,19 +3,28 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { encrypt } from '@/helpers/encryption';
 
 export default function Home() {
   const [selectedCipher, setSelectedCipher] = useState('caesar');
   const [key, setKey] = useState('');
   const [plaintext, setPlaintext] = useState('');
-  const [cyphertext, setCyphertext] = useState('');
-  const [result, setResult] = useState('');
+  const [ciphertext, setCiphertext] = useState('');
 
   const handleEncrypt = () => {
-    // TODO: Implement actual encryption logic
+
     console.log(`Encrypting with ${selectedCipher} cipher`);
     console.log(`Key: ${key}`);
     console.log(`Plaintext: ${plaintext}`);
+
+    try {
+      const encrypted = encrypt(selectedCipher, key, plaintext);
+      setCiphertext(encrypted);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Encryption error:', error);
+      setCiphertext(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -64,6 +73,7 @@ export default function Home() {
             </div>
 
             <button
+              style={{ cursor: 'pointer' }}
               onClick={handleEncrypt}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             >
@@ -71,22 +81,15 @@ export default function Home() {
             </button>
 
             <div>
-              <label className="block mb-2">Cyphertext</label>
+              <label className="block mb-2">Ciphertext</label>
               <textarea
-                value={cyphertext}
+                value={ciphertext}
                 readOnly
-                className="w-full p-2 border rounded bg-gray-50 cursor-not-allowed"
+                className="w-full p-2 border rounded cursor-not-allowed"
                 rows={4}
                 placeholder="Encrypted text will appear here"
               />
             </div>
-
-            {result && (
-              <div className="mt-4">
-                <label className="block mb-2">Result:</label>
-                <div className="p-2 bg-gray-100 rounded">{result}</div>
-              </div>
-            )}
           </div>
         </div>
       </main>
