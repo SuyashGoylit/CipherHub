@@ -38,24 +38,28 @@ export function vigenereCipher(key: string, plaintext: string): string {
     .join('');
 }
 
-// Simple Substitution Cipher: Replaces each letter with corresponding letter from key
-export function substitutionCipher(key: string, plaintext: string): string {
-  // Validate key - must be 26 unique letters
-  const normalizedKey = key.toLowerCase().replace(/[^a-z]/g, '');
-  if (normalizedKey.length !== 26 || new Set(normalizedKey).size !== 26) {
-    throw new Error('Substitution key must contain all 26 letters exactly once');
+// Rail Fence Cipher: Writes text in a zigzag pattern and reads off rows
+export function railFenceCipher(key: number, plaintext: string): string {
+  if (key <= 1) return plaintext;
+  
+  // Create the rail fence pattern
+  const rails: string[][] = Array(key).fill(null).map(() => []);
+  let currentRail = 0;
+  let direction = 1;
+  
+  // Fill the rails
+  for (const char of plaintext) {
+    rails[currentRail].push(char);
+    currentRail += direction;
+    
+    // Change direction at the top or bottom rail
+    if (currentRail === 0 || currentRail === key - 1) {
+      direction *= -1;
+    }
   }
-
-  const substitutionMap = new Map();
-  for (let i = 0; i < 26; i++) {
-    substitutionMap.set(String.fromCharCode(97 + i), normalizedKey[i]);
-    substitutionMap.set(String.fromCharCode(65 + i), normalizedKey[i].toUpperCase());
-  }
-
-  return plaintext
-    .split('')
-    .map(char => substitutionMap.get(char) || char)
-    .join('');
+  
+  // Read off the rails
+  return rails.flat().join('');
 }
 
 // Main encryption function that routes to specific cipher implementation
@@ -65,8 +69,8 @@ export function encrypt(cipher: string, key: string, plaintext: string): string 
       return caesarCipher(parseInt(key) || 0, plaintext);
     case 'vigenere':
       return vigenereCipher(key, plaintext);
-    case 'substitution':
-      return substitutionCipher(key, plaintext);
+    case 'railfence':
+      return railFenceCipher(parseInt(key) || 2, plaintext);
     default:
       throw new Error('Unsupported cipher type');
   }

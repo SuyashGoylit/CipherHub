@@ -46,7 +46,7 @@ export default function Home() {
               >
                 <option value="caesar">Caesar Cipher</option>
                 <option value="vigenere">Vigenère Cipher</option>
-                <option value="substitution">Simple Substitution</option>
+                <option value="railfence">Rail Fence Cipher</option>
               </select>
             </div>
 
