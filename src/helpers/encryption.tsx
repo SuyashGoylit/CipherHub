@@ -62,6 +62,84 @@ export function railFenceCipher(key: number, plaintext: string): string {
   return rails.flat().join('');
 }
 
+// Block Transposition Cipher: Arranges text in blocks and reads off columns
+export function blockTranspositionCipher(key: number, plaintext: string): string {
+  if (key <= 1) return plaintext;
+  
+  // Pad the text if necessary
+  const padding = key - (plaintext.length % key);
+  const paddedText = plaintext + ' '.repeat(padding);
+  
+  // Create blocks
+  const blocks: string[][] = [];
+  for (let i = 0; i < paddedText.length; i += key) {
+    blocks.push(paddedText.slice(i, i + key).split(''));
+  }
+  
+  // Read off columns
+  let result = '';
+  for (let col = 0; col < key; col++) {
+    for (const block of blocks) {
+      if (block[col]) {
+        result += block[col];
+      }
+    }
+  }
+  
+  return result;
+}
+
+// Double Columnar Transposition Cipher: Applies columnar transposition twice
+export function doubleColumnarTranspositionCipher(key: string, plaintext: string): string {
+  // First transposition
+  const firstKey = key.split('').map(char => char.toLowerCase());
+  const firstKeyOrder = [...firstKey].sort();
+  const firstKeyIndices = firstKey.map(char => firstKeyOrder.indexOf(char));
+  
+  // Pad the text if necessary
+  const padding = firstKey.length - (plaintext.length % firstKey.length);
+  const paddedText = plaintext + ' '.repeat(padding);
+  
+  // Create blocks for first transposition
+  const blocks: string[][] = [];
+  for (let i = 0; i < paddedText.length; i += firstKey.length) {
+    blocks.push(paddedText.slice(i, i + firstKey.length).split(''));
+  }
+  
+  // First transposition
+  let firstResult = '';
+  for (const index of firstKeyIndices) {
+    for (const block of blocks) {
+      if (block[index]) {
+        firstResult += block[index];
+      }
+    }
+  }
+  
+  // Second transposition
+  const secondKey = key.split('').reverse().map(char => char.toLowerCase());
+  const secondKeyOrder = [...secondKey].sort();
+  const secondKeyIndices = secondKey.map(char => secondKeyOrder.indexOf(char));
+  
+  // Create blocks for second transposition
+  const secondBlocks: string[][] = [];
+  for (let i = 0; i < firstResult.length; i += secondKey.length) {
+    secondBlocks.push(firstResult.slice(i, i + secondKey.length).split(''));
+  }
+  
+  // Second transposition
+  let result = '';
+  for (const index of secondKeyIndices) {
+    for (const block of secondBlocks) {
+      if (block[index]) {
+        result += block[index];
+      }
+    }
+  }
+  
+  return result;
+}
+
 // Main encryption function that routes to specific cipher implementation
 export function encrypt(cipher: string, key: string, plaintext: string): string {
   switch(cipher.toLowerCase()) {
@@ -71,6 +149,10 @@ export function encrypt(cipher: string, key: string, plaintext: string): string 
       return vigenereCipher(key, plaintext);
     case 'railfence':
       return railFenceCipher(parseInt(key) || 2, plaintext);
+    case 'blocktransposition':
+      return blockTranspositionCipher(parseInt(key) || 2, plaintext);
+    case 'doublecolumnar':
+      return doubleColumnarTranspositionCipher(key, plaintext);
     default:
       throw new Error('Unsupported cipher type');
   }
