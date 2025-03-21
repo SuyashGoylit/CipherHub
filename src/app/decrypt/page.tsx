@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { decrypt } from '@/helpers/decryption';
+import { decrypt } from '@/helpers/encryption';
 
 export default function Home() {
   const [selectedCipher, setSelectedCipher] = useState('caesar');
@@ -69,9 +69,9 @@ export default function Home() {
           </div>
 
           <button
-            style={{ cursor: 'pointer' }}
+            type="button"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
             onClick={handleDecrypt}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
           >
             Decrypt
           </button>

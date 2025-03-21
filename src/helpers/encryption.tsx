@@ -141,19 +141,36 @@ export function doubleColumnarTranspositionCipher(key: string, plaintext: string
 }
 
 // Main encryption function that routes to specific cipher implementation
-export function encrypt(cipher: string, key: string, plaintext: string): string {
-  switch(cipher.toLowerCase()) {
+export function encrypt(cipher: string, key: string, text: string): string {
+  switch (cipher) {
     case 'caesar':
-      return caesarCipher(parseInt(key) || 0, plaintext);
+      return caesarCipher(parseInt(key), text);
     case 'vigenere':
-      return vigenereCipher(key, plaintext);
+      return vigenereCipher(key, text);
     case 'railfence':
-      return railFenceCipher(parseInt(key) || 2, plaintext);
+      return railFenceCipher(parseInt(key), text);
     case 'blocktransposition':
-      return blockTranspositionCipher(parseInt(key) || 2, plaintext);
+      return blockTranspositionCipher(parseInt(key), text);
     case 'doublecolumnar':
-      return doubleColumnarTranspositionCipher(key, plaintext);
+      return doubleColumnarTranspositionCipher(key, text);
     default:
-      throw new Error('Unsupported cipher type');
+      throw new Error('Unknown cipher type');
+  }
+}
+
+export function decrypt(cipher: string, key: string, text: string): string {
+  switch (cipher) {
+    case 'caesar':
+      return caesarCipher(parseInt(key), text);
+    case 'vigenere':
+      return vigenereCipher(key, text);
+    case 'railfence':
+      return railFenceCipher(parseInt(key), text);
+    case 'blocktransposition':
+      return blockTranspositionCipher(parseInt(key), text);
+    case 'doublecolumnar':
+      return doubleColumnarTranspositionCipher(key, text);
+    default:
+      throw new Error('Unknown cipher type');
   }
 }

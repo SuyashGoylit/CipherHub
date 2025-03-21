@@ -10,6 +10,9 @@ export default function Sidebar() {
     { name: 'Home', path: '/' },
     { name: 'Encrypt', path: '/encrypt' },
     { name: 'Decrypt', path: '/decrypt' },
+    { name: 'AES', path: '/aes' },
+    { name: 'RSA', path: '/rsa' },
+    { name: 'SHA', path: '/sha' },
   ];
 
   return (

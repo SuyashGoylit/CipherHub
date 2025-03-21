@@ -117,7 +117,7 @@ export function doubleColumnarTranspositionDecipher(key: string, ciphertext: str
   let index = 0;
   
   // Fill blocks according to key pattern
-  for (let col of keyIndices) {
+  for (const col of keyIndices) {
     for (let row = 0; row < numRows; row++) {
       if (index < ciphertext.length) {
         blocks[row][col] = ciphertext[index++];

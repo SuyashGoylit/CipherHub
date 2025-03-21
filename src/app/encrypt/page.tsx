@@ -69,9 +69,9 @@ export default function Home() {
           </div>
 
           <button
-            style={{ cursor: 'pointer' }}
+            type="button"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
             onClick={handleEncrypt}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
           >
             Encrypt
           </button>
