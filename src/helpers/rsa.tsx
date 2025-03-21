@@ -60,10 +60,12 @@ export async function decrypt(privateKey: JsonWebKey, encryptedMessage: string):
 // Export public key to PEM format
 export async function exportPublicKey(publicKey: JsonWebKey): Promise<string> {
   try {
-    const exported = await rsajs.exportKey(publicKey, 'pem');
-    return exported;
-  } catch (error: any) {
-    const errorMessage = error?.message || 'Unknown error';
+    const cryptoKey = await crypto.subtle.importKey('jwk', publicKey, { name: 'RSA-OAEP', hash: 'SHA-256' }, true, ['encrypt']);
+    const exported = await crypto.subtle.exportKey('spki', cryptoKey);
+    const pem = `-----BEGIN PUBLIC KEY-----\n${btoa(String.fromCharCode(...new Uint8Array(exported))).match(/.{1,64}/g)?.join('\n')}\n-----END PUBLIC KEY-----`;
+    return pem;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Failed to export public key: ${errorMessage}`);
   }
 }
@@ -71,10 +73,12 @@ export async function exportPublicKey(publicKey: JsonWebKey): Promise<string> {
 // Export private key to PEM format
 export async function exportPrivateKey(privateKey: JsonWebKey): Promise<string> {
   try {
-    const exported = await rsajs.exportKey(privateKey, 'pem');
-    return exported;
-  } catch (error: any) {
-    const errorMessage = error?.message || 'Unknown error';
+    const cryptoKey = await crypto.subtle.importKey('jwk', privateKey, { name: 'RSA-OAEP', hash: 'SHA-256' }, true, ['decrypt']);
+    const exported = await crypto.subtle.exportKey('pkcs8', cryptoKey);
+    const pem = `-----BEGIN PRIVATE KEY-----\n${btoa(String.fromCharCode(...new Uint8Array(exported))).match(/.{1,64}/g)?.join('\n')}\n-----END PRIVATE KEY-----`;
+    return pem;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Failed to export private key: ${errorMessage}`);
   }
 }
@@ -82,10 +86,14 @@ export async function exportPrivateKey(privateKey: JsonWebKey): Promise<string> 
 // Import public key from PEM format
 export async function importPublicKey(pemKey: string): Promise<JsonWebKey> {
   try {
-    const imported = await rsajs.importKey(pemKey, 'pem');
-    return imported;
-  } catch (error: any) {
-    const errorMessage = error?.message || 'Unknown error';
+    const pemHeader = '-----BEGIN PUBLIC KEY-----';
+    const pemFooter = '-----END PUBLIC KEY-----';
+    const pemContents = pemKey.substring(pemHeader.length, pemKey.length - pemFooter.length);
+    const binaryDer = Uint8Array.from(atob(pemContents.replace(/\s/g, '')), c => c.charCodeAt(0));
+    const cryptoKey = await crypto.subtle.importKey('spki', binaryDer, { name: 'RSA-OAEP', hash: 'SHA-256' }, true, ['encrypt']);
+    return await crypto.subtle.exportKey('jwk', cryptoKey);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Failed to import public key: ${errorMessage}`);
   }
 }
@@ -93,10 +101,14 @@ export async function importPublicKey(pemKey: string): Promise<JsonWebKey> {
 // Import private key from PEM format
 export async function importPrivateKey(pemKey: string): Promise<JsonWebKey> {
   try {
-    const imported = await rsajs.importKey(pemKey, 'pem');
-    return imported;
-  } catch (error: any) {
-    const errorMessage = error?.message || 'Unknown error';
+    const pemHeader = '-----BEGIN PRIVATE KEY-----';
+    const pemFooter = '-----END PRIVATE KEY-----';
+    const pemContents = pemKey.substring(pemHeader.length, pemKey.length - pemFooter.length);
+    const binaryDer = Uint8Array.from(atob(pemContents.replace(/\s/g, '')), c => c.charCodeAt(0));
+    const cryptoKey = await crypto.subtle.importKey('pkcs8', binaryDer, { name: 'RSA-OAEP', hash: 'SHA-256' }, true, ['decrypt']);
+    return await crypto.subtle.exportKey('jwk', cryptoKey);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Failed to import private key: ${errorMessage}`);
   }
 } 
