@@ -20,13 +20,13 @@ export default function Sidebar() {
     { name: 'Home', path: '/' },
     {
       name: 'Classical Ciphers',
-      path: '/classical',
+      path: '/classicalCiphers',
       children: [
-        { name: 'Caesar Cipher', path: '/classical/caesar' },
-        { name: 'Vigenère Cipher', path: '/classical/vigenere' },
-        { name: 'Playfair Cipher', path: '/classical/playfair' },
-        { name: 'Rail Fence Cipher', path: '/classical/railfence' },
-        { name: 'Columnar Cipher', path: '/classical/columnar' },
+        { name: 'Caesar Cipher', path: '/classicalCiphers/caesar' },
+        { name: 'Vigenère Cipher', path: '/classicalCiphers/vigenere' },
+        { name: 'Playfair Cipher', path: '/classicalCiphers/playfair' },
+        { name: 'Rail Fence Cipher', path: '/classicalCiphers/railfence' },
+        { name: 'Columnar Cipher', path: '/classicalCiphers/columnar' },
       ]
     },
     {

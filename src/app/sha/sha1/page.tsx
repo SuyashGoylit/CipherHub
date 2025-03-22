@@ -35,35 +35,26 @@ export default function SHA1Page() {
           <h1 className="text-3xl font-bold text-white">SHA-1 Hash</h1>
         </div>
 
-        {/* Warning Banner */}
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-8 rounded-lg">
-          <h2 className="text-lg font-semibold text-red-800 mb-2">⚠️ Security Warning</h2>
-          <p className="text-red-700">
-            SHA-1 is considered cryptographically broken and should not be used for security-critical applications.
-            For secure hashing, please use SHA-256, SHA-512, or SHA-3 variants instead.
-          </p>
-        </div>
-
         {/* Hash Form */}
-        <div className="rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">Message Hashing</h2>
+        <div className="bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4 text-white">Message Hashing</h2>
           
           <div className="space-y-4">
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
                 Message to Hash
               </label>
               <textarea
                 id="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full h-32 px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your message here..."
               />
             </div>
 
             <div>
-              <label htmlFor="key" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="key" className="block text-sm font-medium text-gray-300 mb-1">
                 Key (Optional)
               </label>
               <input
@@ -71,35 +62,37 @@ export default function SHA1Page() {
                 id="key"
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter a key for keyed hashing (HMAC)..."
               />
             </div>
 
-            <button
-              onClick={handleHash}
-              disabled={loading}
-              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 hover:cursor-pointer transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Computing Hash...' : 'Compute SHA-1 Hash'}
-            </button>
+            <div className="flex justify-end">
+              <button
+                onClick={handleHash}
+                disabled={loading}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+              >
+                {loading ? 'Computing...' : 'Compute Hash'}
+              </button>
+            </div>
 
             {error && (
-              <div className="text-red-500 text-sm mt-2">
+              <div className="text-red-400 text-sm">
                 {error}
               </div>
             )}
 
             {hash && (
               <div>
-                <label htmlFor="hash" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="hash" className="block text-sm font-medium text-gray-300 mb-1">
                   SHA-1 Hash (Hexadecimal)
                 </label>
                 <textarea
                   id="hash"
                   value={hash}
                   readOnly
-                  className="w-full h-24 px-3 py-2 text-sm font-mono bg-gray-50 border border-gray-300 rounded-md"
+                  className="w-full h-24 px-3 py-2 text-sm font-mono bg-gray-700 text-white border border-gray-600 rounded-md"
                 />
               </div>
             )}
@@ -107,7 +100,7 @@ export default function SHA1Page() {
         </div>
 
         {/* Information Section */}
-        <div className="bg-gray-50 rounded-xl p-6 shadow-lg">
+        <div className="mt-8 bg-gray-800 rounded-lg p-6 shadow-lg">
           <div className="flex items-center gap-3 mb-4">
             <div className="bg-gray-800 p-3 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,6 +135,15 @@ export default function SHA1Page() {
               <span className="text-gray-700">Not recommended for new applications</span>
             </li>
           </ul>
+        </div>
+
+        {/* Security Warning */}
+        <div className="mt-8 bg-red-900 border-l-4 border-red-600 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-red-100">⚠️ Security Warning</h2>
+          <p className="text-red-200">
+            SHA-1 is considered cryptographically broken and should not be used for security-critical applications.
+            For secure hashing, please use SHA-256, SHA-512, or SHA-3 variants instead.
+          </p>
         </div>
       </div>
     </main>

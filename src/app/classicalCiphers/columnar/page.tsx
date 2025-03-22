@@ -44,19 +44,19 @@ export default function ColumnarPage() {
         </div>
 
         {/* Operation Form */}
-        <div className="rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">Message Processing</h2>
+        <div className="bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4 text-white">Message Processing</h2>
           
           <div className="space-y-4">
             <div>
-              <label htmlFor="mode" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="mode" className="block text-sm font-medium text-gray-300 mb-1">
                 Operation Mode
               </label>
               <select
                 id="mode"
                 value={mode}
                 onChange={(e) => setMode(e.target.value as 'encrypt' | 'decrypt')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="encrypt">Encrypt</option>
                 <option value="decrypt">Decrypt</option>
@@ -64,7 +64,7 @@ export default function ColumnarPage() {
             </div>
 
             <div>
-              <label htmlFor="key" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="key" className="block text-sm font-medium text-gray-300 mb-1">
                 Key
               </label>
               <input
@@ -72,49 +72,51 @@ export default function ColumnarPage() {
                 id="key"
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your key..."
               />
               <p className="text-sm text-gray-500 mt-1">The key determines the order of columns</p>
             </div>
 
             <div>
-              <label htmlFor="text" className="block text-sm font-medium text-gray-700 mb-1">
-                Input Text
+              <label htmlFor="text" className="block text-sm font-medium text-gray-300 mb-1">
+                {mode === 'encrypt' ? 'Text to Encrypt' : 'Text to Decrypt'}
               </label>
               <textarea
                 id="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={`Enter text to ${mode}...`}
+                className="w-full h-32 px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            <button
-              onClick={handleOperation}
-              disabled={loading}
-              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 hover:cursor-pointer transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Processing...' : mode === 'encrypt' ? 'Encrypt' : 'Decrypt'}
-            </button>
+            <div className="flex justify-end">
+              <button
+                onClick={handleOperation}
+                disabled={loading}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+              >
+                {loading ? 'Processing...' : mode === 'encrypt' ? 'Encrypt' : 'Decrypt'}
+              </button>
+            </div>
 
             {error && (
-              <div className="text-red-500 text-sm mt-2">
+              <div className="text-red-400 text-sm">
                 {error}
               </div>
             )}
 
             {result && (
               <div>
-                <label htmlFor="result" className="block text-sm font-medium text-gray-700 mb-1">
-                  {mode === 'encrypt' ? 'Encrypted' : 'Decrypted'} Text
+                <label htmlFor="result" className="block text-sm font-medium text-gray-300 mb-1">
+                  {mode === 'encrypt' ? 'Encrypted Text' : 'Decrypted Text'}
                 </label>
                 <textarea
                   id="result"
                   value={result}
                   readOnly
-                  className="w-full h-32 px-3 py-2 text-sm font-mono bg-gray-50 border border-gray-300 rounded-md"
+                  className="w-full h-32 px-3 py-2 text-sm font-mono bg-gray-700 text-white border border-gray-600 rounded-md"
                 />
               </div>
             )}
@@ -122,46 +124,48 @@ export default function ColumnarPage() {
         </div>
 
         {/* Information Section */}
-        <div className="bg-gray-50 rounded-xl p-6 shadow-lg mt-8">
+        <div className="mt-8 bg-gray-800 rounded-lg p-6 shadow-lg">
           <div className="flex items-center gap-3 mb-4">
-            <div className="bg-gray-800 p-3 rounded-lg">
+            <div className="bg-gray-700 p-3 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">About Columnar Transposition Cipher</h2>
+            <h2 className="text-2xl font-bold text-white">About Columnar Transposition Cipher</h2>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-gray-800 mr-2">✓</span>
-              <span className="text-gray-700">A transposition cipher that rearranges text using columns</span>
+              <span className="text-white mr-2">✓</span>
+              <span className="text-gray-300">A transposition cipher that rearranges text using columns</span>
             </li>
             <li className="flex items-start">
-              <span className="text-gray-800 mr-2">✓</span>
-              <span className="text-gray-700">Text is written in rows and read off by columns in key order</span>
+              <span className="text-white mr-2">✓</span>
+              <span className="text-gray-300">Text is written in rows, then read off by columns in key order</span>
             </li>
             <li className="flex items-start">
-              <span className="text-gray-800 mr-2">✓</span>
-              <span className="text-gray-700">Key determines the order in which columns are read</span>
+              <span className="text-white mr-2">✓</span>
+              <span className="text-gray-300">The key determines the order in which columns are read</span>
             </li>
             <li className="flex items-start">
-              <span className="text-gray-800 mr-2">✓</span>
-              <span className="text-gray-700">Can be combined with other ciphers for added security</span>
+              <span className="text-white mr-2">✓</span>
+              <span className="text-gray-300">Can be combined with other ciphers for added security</span>
             </li>
             <li className="flex items-start">
-              <span className="text-gray-800 mr-2">✓</span>
-              <span className="text-gray-700">Used historically in military communications</span>
+              <span className="text-white mr-2">✓</span>
+              <span className="text-gray-300">Used historically in military and diplomatic communications</span>
             </li>
           </ul>
         </div>
 
         {/* Security Notice */}
-        <div className="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-800">Security Notice</h2>
-          <p className="text-yellow-700">
-            The Columnar Transposition cipher, while more complex than simple substitution ciphers, can still 
-            be broken using frequency analysis and pattern recognition. The security depends on the key length 
-            and message length. For secure communications, use modern encryption standards like AES.
+        <div className="mt-8 bg-yellow-900 border-l-4 border-yellow-600 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-yellow-100">Security Notice</h2>
+          <p className="text-yellow-200">
+            The Columnar Transposition cipher, while more complex than simple substitution ciphers, 
+            can be broken using modern cryptanalysis techniques. The security depends on the key length 
+            and message size. This cipher should only be used for educational purposes and not for 
+            securing sensitive information. For modern security needs, use standard encryption algorithms 
+            like AES.
           </p>
         </div>
       </div>
