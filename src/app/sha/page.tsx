@@ -23,7 +23,7 @@ export default function SHAPage() {
           </Link>
           <Link 
             href="/sha/sha2"
-            className="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-green-600 transition-colors text-center font-semibold flex items-center gap-2"
+            className="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-blue-600 transition-colors text-center font-semibold flex items-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -32,7 +32,7 @@ export default function SHAPage() {
           </Link>
           <Link 
             href="/sha/sha3"
-            className="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-purple-600 transition-colors text-center font-semibold flex items-center gap-2"
+            className="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-blue-600 transition-colors text-center font-semibold flex items-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -45,36 +45,85 @@ export default function SHAPage() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Key Features */}
         <div className="bg-gray-50 rounded-xl p-6 shadow-lg">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-6">
             <div className="bg-gray-800 p-3 rounded-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Key Features</h2>
           </div>
-          <ul className="space-y-3">
-            <li className="flex items-start">
-              <span className="text-green-500 mr-2">✓</span>
-              <span className="text-gray-800">Deterministic: Same input always produces the same hash</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-500 mr-2">✓</span>
-              <span className="text-gray-800">Quick computation of hash value for any given message</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-500 mr-2">✓</span>
-              <span className="text-gray-800">Infeasible to generate a message from its hash value</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-500 mr-2">✓</span>
-              <span className="text-gray-800">Infeasible to modify a message without changing the hash</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-500 mr-2">✓</span>
-              <span className="text-gray-800">Infeasible to find two different messages with the same hash</span>
-            </li>
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="bg-gray-800 p-3 rounded-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1">Deterministic Output</h3>
+                <p className="text-gray-600 text-sm">Same input message will always produce the exact same hash value, ensuring consistency and reliability.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="bg-gray-800 p-3 rounded-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1">Fast Computation</h3>
+                <p className="text-gray-600 text-sm">Quick and efficient calculation of hash values for any given message, regardless of size.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="bg-gray-800 p-3 rounded-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1">Pre-image Resistance</h3>
+                <p className="text-gray-600 text-sm">Computationally infeasible to generate or find a message that produces a given hash value.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="bg-gray-800 p-3 rounded-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1">Collision Resistance</h3>
+                <p className="text-gray-600 text-sm">Extremely difficult to find two different messages that produce the same hash value.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex-shrink-0">
+                <div className="bg-gray-800 p-3 rounded-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1">Avalanche Effect</h3>
+                <p className="text-gray-600 text-sm">Small changes in the input message result in significantly different hash values.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Common Use Cases */}

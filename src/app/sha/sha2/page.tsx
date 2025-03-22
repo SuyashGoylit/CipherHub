@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { computeSHA2 } from '@/helpers/sha';
 
 export default function SHA2Page() {
   const [message, setMessage] = useState('');
   const [variant, setVariant] = useState<'SHA2-256' | 'SHA2-512'>('SHA2-256');
+  const [key, setKey] = useState('');
   const [hash, setHash] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function SHA2Page() {
     try {
       setLoading(true);
       setError('');
-      const hashedMessage = await computeSHA2(message, variant);
+      const hashedMessage = await computeSHA2(message, variant, key || undefined);
       setHash(hashedMessage);
     } catch {
       setError('Hashing failed. Please try again.');
@@ -33,17 +33,11 @@ export default function SHA2Page() {
     <main className="flex-grow container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
-          <Link
-            href="/sha"
-            className="text-gray-600 hover:text-gray-800 transition-colors"
-          >
-            ← Back to SHA
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-800">SHA-2 Hash</h1>
+          <h1 className="text-3xl font-bold text-white">SHA-2 Hash</h1>
         </div>
 
         {/* Hash Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold mb-4">Message Hashing</h2>
           
           <div className="space-y-4">
@@ -75,10 +69,24 @@ export default function SHA2Page() {
               />
             </div>
 
+            <div>
+              <label htmlFor="key" className="block text-sm font-medium text-gray-700 mb-1">
+                Key (Optional)
+              </label>
+              <input
+                type="text"
+                id="key"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter a key for keyed hashing (HMAC)..."
+              />
+            </div>
+
             <button
               onClick={handleHash}
               disabled={loading}
-              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 hover:cursor-pointer transition-colors disabled:opacity-50"
             >
               {loading ? 'Computing Hash...' : `Compute ${variant} Hash`}
             </button>
@@ -106,28 +114,37 @@ export default function SHA2Page() {
         </div>
 
         {/* Information Section */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">SHA-256</h2>
-            <ul className="space-y-3 text-gray-700">
-              <li>• Produces a 256-bit (32-byte) hash value</li>
-              <li>• Most widely used SHA-2 variant</li>
-              <li>• Suitable for digital signatures</li>
-              <li>• Used in Bitcoin mining</li>
-              <li>• Recommended for most applications</li>
-            </ul>
+        <div className="bg-gray-50 rounded-xl p-6 shadow-lg">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="bg-gray-800 p-3 rounded-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800">About SHA-2</h2>
           </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">SHA-512</h2>
-            <ul className="space-y-3 text-gray-700">
-              <li>• Produces a 512-bit (64-byte) hash value</li>
-              <li>• Higher security margin than SHA-256</li>
-              <li>• Better performance on 64-bit systems</li>
-              <li>• Used in high-security applications</li>
-              <li>• Recommended for future-proofing</li>
-            </ul>
-          </div>
+          <ul className="space-y-3">
+            <li className="flex items-start">
+              <span className="text-gray-800 mr-2">✓</span>
+              <span className="text-gray-700">Successor to SHA-1 with improved security</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-gray-800 mr-2">✓</span>
+              <span className="text-gray-700">SHA-256 produces 256-bit (32-byte) hash values</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-gray-800 mr-2">✓</span>
+              <span className="text-gray-700">SHA-512 produces 512-bit (64-byte) hash values</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-gray-800 mr-2">✓</span>
+              <span className="text-gray-700">Widely used in security applications and protocols</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-gray-800 mr-2">✓</span>
+              <span className="text-gray-700">No practical attacks have been demonstrated</span>
+            </li>
+          </ul>
         </div>
 
         {/* Security Notice */}

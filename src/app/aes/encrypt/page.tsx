@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { encryptAES, type AESMode, type KeySize } from '@/helpers/aes';
 
 export default function AESEncryptPage() {
@@ -25,12 +24,6 @@ export default function AESEncryptPage() {
   return (
     <main className="flex-grow container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-8">
-        <Link 
-          href="/aes"
-          className="text-blue-500 hover:text-blue-600 transition-colors"
-        >
-          ← Back to AES
-        </Link>
         <h1 className="text-3xl font-bold">AES Encryption</h1>
       </div>
       
@@ -100,7 +93,7 @@ export default function AESEncryptPage() {
         {/* Encrypt Button */}
         <button
           onClick={handleEncrypt}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 hover:cursor-pointer transition-colors"
         >
           Encrypt
         </button>
