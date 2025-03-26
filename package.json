@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.8",
+    "@mui/material": "^6.4.8",
     "hash-wasm": "^4.12.0",
     "js-crypto-aes": "^1.0.6",
     "js-crypto-rsa": "^1.0.7",

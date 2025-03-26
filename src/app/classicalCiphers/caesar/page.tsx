@@ -5,7 +5,7 @@ import { caesarEncrypt, caesarDecrypt } from '@/helpers/classical';
 
 export default function CaesarPage() {
   const [text, setText] = useState('');
-  const [shift, setShift] = useState(3);
+  const [key, setKey] = useState(3);
   const [result, setResult] = useState('');
   const [mode, setMode] = useState<'encrypt' | 'decrypt'>('encrypt');
   const [error, setError] = useState('');
@@ -21,8 +21,8 @@ export default function CaesarPage() {
       setLoading(true);
       setError('');
       const processed = mode === 'encrypt' 
-        ? caesarEncrypt(text, shift)
-        : caesarDecrypt(text, shift);
+        ? caesarEncrypt(text, key)
+        : caesarDecrypt(text, key);
       setResult(processed);
     } catch {
       setError('Operation failed. Please try again.');
@@ -59,21 +59,21 @@ export default function CaesarPage() {
             </div>
 
             <div>
-              <label htmlFor="shift" className="block text-sm font-medium text-gray-300 mb-1">
-                Shift Amount
+              <label htmlFor="key" className="block text-sm font-medium text-gray-300 mb-1">
+                Key (Shift Amount)
               </label>
               <input
                 type="number"
-                id="shift"
-                value={shift}
+                id="key"
+                value={key}
                 onChange={(e) => {
                   const value = parseInt(e.target.value) || 0;
-                  setShift(Math.max(0, Math.min(25, value)));
+                  setKey(Math.max(0, Math.min(25, value)));
                 }}
                 min="0"
                 max="25"
                 className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter shift amount (0-25)..."
+                placeholder="Enter key (0-25)..."
               />
               <p className="text-sm text-gray-500 mt-1">Value between 0 and 25</p>
             </div>
@@ -95,7 +95,7 @@ export default function CaesarPage() {
               <button
                 onClick={handleOperation}
                 disabled={loading}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50 cursor-pointer"
               >
                 {loading ? 'Processing...' : mode === 'encrypt' ? 'Encrypt' : 'Decrypt'}
               </button>

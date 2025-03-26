@@ -1,5 +1,5 @@
 // Caesar Cipher
-export function caesarEncrypt(text: string, shift: number): string {
+export function caesarEncrypt(text: string, key: number): string {
   return text
     .split('')
     .map(char => {
@@ -7,31 +7,36 @@ export function caesarEncrypt(text: string, shift: number): string {
         const code = char.charCodeAt(0);
         const isUpperCase = code >= 65 && code <= 90;
         const base = isUpperCase ? 65 : 97;
-        return String.fromCharCode((code - base + shift) % 26 + base);
+        return String.fromCharCode((code - base + key) % 26 + base);
       }
       return char;
     })
     .join('');
 }
 
-export function caesarDecrypt(text: string, shift: number): string {
-  return caesarEncrypt(text, (26 - shift) % 26);
+export function caesarDecrypt(text: string, key: number): string {
+  return caesarEncrypt(text, (26 - key) % 26);
 }
 
 // Vigenère Cipher
 export function vigenereEncrypt(text: string, key: string): string {
-  const normalizedKey = key.toUpperCase().replace(/[^A-Z]/g, '');
+  // Normalize key to only contain letters, preserving case
+  const normalizedKey = key.replace(/[^a-zA-Z]/g, '');
   if (!normalizedKey) return text;
 
+  let keyIndex = 0;
   return text
     .split('')
-    .map((char, i) => {
-      if (char.match(/[a-z]/i)) {
+    .map(char => {
+      if (char.match(/[a-zA-Z]/)) {
         const isUpperCase = char === char.toUpperCase();
         const base = isUpperCase ? 65 : 97;
-        const shift = normalizedKey.charCodeAt(i % normalizedKey.length) - 65;
+        const keyChar = normalizedKey[keyIndex % normalizedKey.length];
+        const keyBase = keyChar === keyChar.toUpperCase() ? 65 : 97;
+        const shift = (keyChar.charCodeAt(0) - keyBase);
         const code = char.charCodeAt(0);
-        return String.fromCharCode((code - base + shift) % 26 + base);
+        keyIndex++;
+        return String.fromCharCode(((code - base + shift + 26) % 26) + base);
       }
       return char;
     })
@@ -39,18 +44,23 @@ export function vigenereEncrypt(text: string, key: string): string {
 }
 
 export function vigenereDecrypt(text: string, key: string): string {
-  const normalizedKey = key.toUpperCase().replace(/[^A-Z]/g, '');
+  // Normalize key to only contain letters, preserving case
+  const normalizedKey = key.replace(/[^a-zA-Z]/g, '');
   if (!normalizedKey) return text;
 
+  let keyIndex = 0;
   return text
     .split('')
-    .map((char, i) => {
-      if (char.match(/[a-z]/i)) {
+    .map(char => {
+      if (char.match(/[a-zA-Z]/)) {
         const isUpperCase = char === char.toUpperCase();
         const base = isUpperCase ? 65 : 97;
-        const shift = normalizedKey.charCodeAt(i % normalizedKey.length) - 65;
+        const keyChar = normalizedKey[keyIndex % normalizedKey.length];
+        const keyBase = keyChar === keyChar.toUpperCase() ? 65 : 97;
+        const shift = (keyChar.charCodeAt(0) - keyBase);
         const code = char.charCodeAt(0);
-        return String.fromCharCode((code - base - shift + 26) % 26 + base);
+        keyIndex++;
+        return String.fromCharCode(((code - base - shift + 26) % 26) + base);
       }
       return char;
     })
